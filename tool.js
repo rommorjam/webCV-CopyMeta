@@ -25,14 +25,8 @@ document.body.appendChild(__pvOv);
 var __pvCloseGuide=function(){__pvOv.parentNode&&__pvOv.parentNode.removeChild(__pvOv);__pvStyle.parentNode&&__pvStyle.parentNode.removeChild(__pvStyle)};
 /* ×ボタン・背景クリックで閉じる */
 __pvOv.querySelector("#__pv_guide_close").onclick=__pvCloseGuide;__pvOv.onclick=function(ev){ev.target===__pvOv&&__pvCloseGuide()};
-/* 子タブが webCVオリジン かつ パスに home を含み、bodyが準備済みかを判定（注入可否） */
-var __pvChildReady=function(w){try{var h=(w.location.hostname||"").toLowerCase();var ok=-1!==h.indexOf("inet-cvweb.jp")||-1!==h.indexOf("cvweb.ntv.jp");return ok&&-1!==(w.location.pathname||"").toLowerCase().indexOf("home")&&!!w.document.body}catch(e){return!1}};
-/* 子タブへ本ツール(tool.js)をscript注入して自動起動（ブックマークレットと同方式・実績あり） */
-var __pvInject=function(w){try{var s=w.document.createElement("script");s.src="https://web-cv-copy-meta.vercel.app/tool.js?_="+Date.now();(w.document.head||w.document.documentElement).appendChild(s)}catch(e){}};
-/* 監視開始: 最新タブだけ監視（既存監視は破棄）。終了条件=子タブ閉じ/home着地で注入/10分タイムアウト。親タブが閉じればJSごと停止するため明示処理は不要 */
-var __pvStartWatch=function(w){try{if(window.__pvGuideWatch&&window.__pvGuideWatch.timer)clearInterval(window.__pvGuideWatch.timer)}catch(e){}var injected=!1,started=Date.now();var timer=setInterval(function(){if(!w||w.closed)return void clearInterval(timer);if(Date.now()-started>=6e5)return void clearInterval(timer);if(!injected&&__pvChildReady(w)){injected=!0,__pvInject(w),clearInterval(timer)}},500);window.__pvGuideWatch={timer:timer,win:w}};
-/* タイル（行）全体クリック: 別タブでwebCVを開き、監視を開始し、ツール画面（オーバーレイ）を閉じる。コピーボタンはstopPropagation済み */
-Array.prototype.forEach.call(__pvOv.querySelectorAll(".__pv_urlrow"),function(el){el.onclick=function(){var url=el.getAttribute("data-go"),w=null;try{w=window.open(url,"_blank")}catch(e){w=null}if(!w){/* ポップアップブロック時のフォールバック: 同一タブ遷移（この場合は自動起動されず、webCV側で本ツールの再実行が必要） */alert("別タブを開けませんでした（ポップアップがブロックされた可能性があります）。同じタブでwebCVへ移動します。webCVを開いたら、もう一度ブックマークから本ツールを実行してください。"),location.href=url;return}__pvStartWatch(w),__pvCloseGuide()}});
+/* タイル（行）全体クリックで現在タブを遷移。コピーボタンはstopPropagationで除外済み */
+Array.prototype.forEach.call(__pvOv.querySelectorAll(".__pv_urlrow"),function(el){el.onclick=function(){location.href=el.getAttribute("data-go")}});
 /* コピーボタン: execCommandでコピーし、成功時はラベルを一時的に変更（既存のq()はこの時点で未定義のため独自フィードバック） */
 Array.prototype.forEach.call(__pvOv.querySelectorAll(".__pv_copy"),function(btn){btn.onclick=function(ev){ev.stopPropagation();var ok=__pvCopy(btn.getAttribute("data-copy"));var orig=btn.textContent;btn.textContent=ok?"コピーしました":"失敗";btn.disabled=!0;setTimeout(function(){btn.textContent=orig;btn.disabled=!1},1600)}});
 return;/* 非webCVではここで終了。以降の既存処理（フック/キャプチャ等）は一切実行しない */
