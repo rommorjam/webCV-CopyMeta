@@ -361,61 +361,29 @@
     .cv-links {
         display: flex;
         flex-direction: column;
-        gap: 14px;
-        margin-top: 18px;
+        gap: 8px;
+        margin-top: 16px;
     }
 
-    /* ラベル（上）とURLボタン（下）を縦積み */
+    /* 「・ラベル：URL」を1行で表示する箇条書き */
     .cv-link-item {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-    }
-
-    /* 用途ラベル：装飾なしの見出しテキスト（クリック不可） */
-    .cv-link-label {
-        font-family: var(--sans);
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--text-dim);
-        letter-spacing: 0.02em;
-    }
-
-    /* URL本体：クリック可能領域。クローム調ボタンはここだけに適用 */
-    .cv-link-url {
-        display: inline-flex;
-        align-items: center;
-        align-self: flex-start;        /* URL文字幅に合わせ、クリック領域をURL部分に限定 */
-        max-width: 100%;
-        padding: 10px 16px;
-        font-family: var(--mono);
-        font-size: 13px;
-        font-weight: 500;
+        margin: 0;
         color: var(--text);
-        text-decoration: none;
-        word-break: break-all;          /* 長いURLでも折り返して収める */
-        background: var(--chrome);
-        border: 1px solid rgba(255,255,255,0.85);
-        border-radius: 8px;
-        text-shadow: 0 1px 0 rgba(255,255,255,0.7);
-        box-shadow:
-            0 2px 5px rgba(60,70,85,0.26),
-            inset 0 1px 0 rgba(255,255,255,0.95),
-            inset 0 -2px 3px rgba(80,90,105,0.28);
-        transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1), color 0.2s ease;
+        line-height: 1.9;
     }
 
-    .cv-link-url:hover {
-        transform: translateY(-2px);
-        color: var(--cyan);
-        box-shadow:
-            0 4px 9px rgba(60,70,85,0.30),
-            0 10px 24px rgba(60,70,85,0.18),
-            inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -2px 3px rgba(80,90,105,0.28);
+    /* URL本体：典型的なハイパーリンク（青・太字・下線） */
+    .cv-link-url {
+        color: #0000ee;                /* 典型的なリンク青 */
+        font-weight: 700;              /* 太字 */
+        text-decoration: underline;    /* 下線 */
+        overflow-wrap: anywhere;        /* 長いURLは必要に応じて折り返す */
     }
 
-    .cv-link-url:active { transform: translateY(0); }
+    /* 訪問済みも同色で見た目を一貫させる */
+    .cv-link-url:visited { color: #0000ee; }
+
+    .cv-link-url:hover { color: #0000aa; }
 
     /* 手順3の動画ブロック */
     .step-video-title {
@@ -514,14 +482,8 @@
                 <div class="step-body">
                     <p>webCVへアクセスして、追加したお気に入り「webCVメタコピー」をクリック！</p>
                     <div class="cv-links">
-                        <div class="cv-link-item">
-                            <span class="cv-link-label">社内用(スターネット)</span>
-                            <a class="cv-link-url" href="https://snet-cvweb.ntv.jp" target="_blank" rel="noopener noreferrer">https://snet-cvweb.ntv.jp</a>
-                        </div>
-                        <div class="cv-link-item">
-                            <span class="cv-link-label">社外用(インターネット/VPN)</span>
-                            <a class="cv-link-url" href="https://www.inet-cvweb.jp" target="_blank" rel="noopener noreferrer">https://www.inet-cvweb.jp</a>
-                        </div>
+                        <p class="cv-link-item">・社内用(スターネット)：<a class="cv-link-url" href="https://snet-cvweb.ntv.jp" target="_blank" rel="noopener noreferrer">https://snet-cvweb.ntv.jp</a></p>
+                        <p class="cv-link-item">・社外用(インターネット/VPN)：<a class="cv-link-url" href="https://www.inet-cvweb.jp" target="_blank" rel="noopener noreferrer">https://www.inet-cvweb.jp</a></p>
                     </div>
                 </div>
             </section>
