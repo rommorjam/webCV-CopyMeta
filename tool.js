@@ -672,7 +672,11 @@
             }
         },
         _ = function(e) {
-            localStorage.setItem(s, JSON.stringify(e))
+            localStorage.setItem(s, JSON.stringify(e));
+            /* ローカルファイルミラーへ同期予約（未接続・非対応時はモジュール側でno-op。関数宣言のため巻き上げで参照可） */
+            try {
+                __pvFsScheduleWrite()
+            } catch (e) {}
         },
         u = function(e) {
             var t = document.createElement("div");
@@ -789,7 +793,7 @@
     var E = document.createElement("div");
     E.id = "__pvtool_overlay";
     var C = document.createElement("style");
-    C.textContent = '#__pvtool_overlay,#__pvtool_overlay *{box-sizing:border-box;font-family:-apple-system,"Segoe UI",Meiryo,sans-serif;}#__pvtool_overlay{position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;}.__pv_panel{width:760px;max-width:94vw;max-height:88vh;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;}.__pv_head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#1e293b;color:#fff;}.__pv_title{font-size:15px;font-weight:700;letter-spacing:.02em;}.__pv_close{cursor:pointer;border:none;background:transparent;color:#cbd5e1;font-size:22px;line-height:1;padding:2px 6px;border-radius:6px;}.__pv_close:hover{background:rgba(255,255,255,.12);color:#fff;}#__pvtool_overlay .__pv_titlewrap{display:flex;align-items:center;gap:8px;min-width:0;}#__pvtool_overlay .__pv_share{cursor:pointer;border:none;background:transparent;color:#cbd5e1;padding:2px 6px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;line-height:1;flex:none;}#__pvtool_overlay .__pv_share:hover{background:rgba(255,255,255,.12);color:#fff;}#__pvtool_overlay .__pv_share svg{display:block;}.__pv_tabs{display:flex;gap:4px;padding:10px 14px 0;background:#f1f5f9;}.__pv_tab{flex:1;cursor:pointer;border:none;background:transparent;padding:9px 8px;font-size:13px;font-weight:600;color:#64748b;border-radius:8px 8px 0 0;border-bottom:2px solid transparent;}.__pv_tab.act{background:#fff;color:#1e293b;border-bottom-color:#2563eb;}.__pv_body{padding:16px 18px;overflow-y:auto;background:#fff;}.__pv_hint{font-size:12px;color:#64748b;margin:0 0 12px;}.__pv_row{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:8px;background:#fff;}.__pv_row.tpl{background:#fffbeb;border-color:#fcd34d;}.__pv_row .chk{width:16px;height:16px;flex:none;cursor:pointer;}.__pv_rmain{flex:1;min-width:0;}.__pv_rtop{display:flex;align-items:center;gap:8px;}.__pv_no{font-size:13px;font-weight:700;color:#0f172a;white-space:nowrap;}.__pv_ttl{font-size:13px;color:#334155;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.__pv_badge{flex:none;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.__pv_badge.t{background:#f59e0b;color:#fff;}.__pv_badge.tmp{background:#cbd5e1;color:#334155;}.__pv_badge.warn{background:#ffff00;color:#000;}.__pv_badge.ban{background:rgb(255,0,0);color:#000;}.__pv_badge.none{background:#fff;color:#000;border:1px solid #cbd5e1;}.__pv_desc{font-size:12px;color:#94a3b8;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.__pv_metarow{display:flex;align-items:center;gap:8px;margin-top:3px;}.__pv_meta{font-size:11px;color:#64748b;}.__pv_meta b{color:#475569;font-weight:600;}.__pv_clickable{cursor:pointer;}.__pv_acts{display:flex;gap:6px;flex:none;}.__pv_btn{cursor:pointer;border:1px solid #cbd5e1;background:#fff;color:#334155;font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px;white-space:nowrap;}.__pv_btn:hover{background:#f8fafc;}.__pv_btn.pri{background:#2563eb;border-color:#2563eb;color:#fff;}.__pv_btn.pri:hover{background:#1d4ed8;}.__pv_copyreg{font-size:15px;font-weight:700;line-height:1.25;white-space:normal;text-align:center;padding:7px 12px;border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.5);}.__pv_copyreg:disabled{background:#94a3b8;border-color:#94a3b8;opacity:.5;cursor:not-allowed;box-shadow:none;}.__pv_btn.dng{border-color:#fecaca;color:#dc2626;}.__pv_btn.dng:hover{background:#fef2f2;}.__pv_btn.gld{border-color:#f59e0b;color:#b45309;}.__pv_btn.gld:hover{background:#fffbeb;}.__pv_btn:disabled{opacity:.45;cursor:not-allowed;}.__pv_empty{text-align:center;color:#94a3b8;font-size:13px;padding:36px 0;}.__pv_bar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}.__pv_spacer{flex:1;}.__pv_detail{margin-top:8px;padding:10px 12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;display:none;}.__pv_detail.open{display:block;}.__pv_dgrid{display:grid;grid-template-columns:120px 1fr;gap:4px 12px;font-size:12px;}.__pv_dgrid dt{color:#64748b;}.__pv_dgrid dd{margin:0;color:#0f172a;word-break:break-all;white-space:pre-wrap;}.__pv_edit{display:grid;grid-template-columns:140px 90px 1fr;gap:6px 10px;font-size:12px;align-items:center;}.__pv_edit .lbl{color:#475569;font-weight:600;}.__pv_edit .mode select,.__pv_edit .val input,.__pv_edit .val select,.__pv_edit .val textarea{width:100%;padding:4px 6px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;background:#fff;color:#0f172a;}.__pv_edit .val textarea{min-height:48px;resize:vertical;}.__pv_edit .val .disabled-note{color:#94a3b8;font-size:11px;padding:4px 6px;background:#f1f5f9;border-radius:6px;border:1px dashed #cbd5e1;}.__pv_edit_bar{display:flex;gap:6px;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}.__pv_edit_warn{font-size:11px;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;padding:6px 8px;border-radius:6px;margin-bottom:8px;}.__pv_footer{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid #e2e8f0;background:#f8fafc;}.__pv_footer_left{display:flex;gap:8px;align-items:center;}.__pv_footer_right{display:flex;gap:8px;align-items:center;margin-left:auto;}.__pv_exp_chk{width:16px;height:16px;flex:none;cursor:pointer;margin-right:4px;}#__pvtool_overlay .__pv_headright{display:flex;align-items:center;gap:8px;flex:none;}#__pvtool_overlay .__pv_deflabel{font-size:12px;color:#cbd5e1;white-space:nowrap;}#__pvtool_overlay .__pv_defsel{font-size:12px;font-weight:600;color:#e2e8f0;background:#0f172a;border:1px solid #475569;border-radius:6px;padding:4px 8px;cursor:pointer;}#__pvtool_overlay .__pv_defsel:hover{border-color:#64748b;}#__pvtool_overlay .__pv_defsel option{color:#0f172a;background:#fff;}', document.head.appendChild(C), E.innerHTML = '<div class="__pv_panel">  <div class="__pv_head">    <div class="__pv_titlewrap"><div class="__pv_title">【webCV】メタコピーツール</div><button class="__pv_share" id="__pv_share" type="button" title="手順ページを開く" aria-label="手順ページを開く"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button></div>    <div class="__pv_headright"><label class="__pv_deflabel" for="__pv_defsel">起動タブ:</label><select class="__pv_defsel" id="__pv_defsel"><option value="capture">メタコピー</option><option value="list">保存一覧</option></select><button class="__pv_close" id="__pv_close">×</button></div>  </div>  <div class="__pv_tabs">    <button class="__pv_tab act" data-tab="capture">メタコピー(プレビュー画面から)</button>    <button class="__pv_tab" data-tab="list">保存メタ一覧</button>  </div>  <div class="__pv_body" id="__pv_body"></div>  <div class="__pv_footer" id="__pv_footer"></div></div>', document.body.appendChild(E);
+    C.textContent = '#__pvtool_overlay,#__pvtool_overlay *{box-sizing:border-box;font-family:-apple-system,"Segoe UI",Meiryo,sans-serif;}#__pvtool_overlay{position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;}.__pv_panel{width:760px;max-width:94vw;max-height:88vh;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;}.__pv_head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#1e293b;color:#fff;}.__pv_title{font-size:15px;font-weight:700;letter-spacing:.02em;}.__pv_close{cursor:pointer;border:none;background:transparent;color:#cbd5e1;font-size:22px;line-height:1;padding:2px 6px;border-radius:6px;}.__pv_close:hover{background:rgba(255,255,255,.12);color:#fff;}#__pvtool_overlay .__pv_titlewrap{display:flex;align-items:center;gap:8px;min-width:0;}#__pvtool_overlay .__pv_share{cursor:pointer;border:none;background:transparent;color:#cbd5e1;padding:2px 6px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;line-height:1;flex:none;}#__pvtool_overlay .__pv_share:hover{background:rgba(255,255,255,.12);color:#fff;}#__pvtool_overlay .__pv_share svg{display:block;}.__pv_tabs{display:flex;gap:4px;padding:10px 14px 0;background:#f1f5f9;}.__pv_tab{flex:1;cursor:pointer;border:none;background:transparent;padding:9px 8px;font-size:13px;font-weight:600;color:#64748b;border-radius:8px 8px 0 0;border-bottom:2px solid transparent;}.__pv_tab.act{background:#fff;color:#1e293b;border-bottom-color:#2563eb;}.__pv_body{padding:16px 18px;overflow-y:auto;background:#fff;}.__pv_hint{font-size:12px;color:#64748b;margin:0 0 12px;}.__pv_row{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:8px;background:#fff;}.__pv_row.tpl{background:#fffbeb;border-color:#fcd34d;}.__pv_row .chk{width:16px;height:16px;flex:none;cursor:pointer;}.__pv_rmain{flex:1;min-width:0;}.__pv_rtop{display:flex;align-items:center;gap:8px;}.__pv_no{font-size:13px;font-weight:700;color:#0f172a;white-space:nowrap;}.__pv_ttl{font-size:13px;color:#334155;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.__pv_badge{flex:none;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;}.__pv_badge.t{background:#f59e0b;color:#fff;}.__pv_badge.tmp{background:#cbd5e1;color:#334155;}.__pv_badge.warn{background:#ffff00;color:#000;}.__pv_badge.ban{background:rgb(255,0,0);color:#000;}.__pv_badge.none{background:#fff;color:#000;border:1px solid #cbd5e1;}.__pv_desc{font-size:12px;color:#94a3b8;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.__pv_metarow{display:flex;align-items:center;gap:8px;margin-top:3px;}.__pv_meta{font-size:11px;color:#64748b;}.__pv_meta b{color:#475569;font-weight:600;}.__pv_clickable{cursor:pointer;}.__pv_acts{display:flex;gap:6px;flex:none;}.__pv_btn{cursor:pointer;border:1px solid #cbd5e1;background:#fff;color:#334155;font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px;white-space:nowrap;}.__pv_btn:hover{background:#f8fafc;}.__pv_btn.pri{background:#2563eb;border-color:#2563eb;color:#fff;}.__pv_btn.pri:hover{background:#1d4ed8;}.__pv_copyreg{font-size:15px;font-weight:700;line-height:1.25;white-space:normal;text-align:center;padding:7px 12px;border-radius:9px;box-shadow:0 2px 6px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.5);}.__pv_copyreg:disabled{background:#94a3b8;border-color:#94a3b8;opacity:.5;cursor:not-allowed;box-shadow:none;}.__pv_btn.dng{border-color:#fecaca;color:#dc2626;}.__pv_btn.dng:hover{background:#fef2f2;}.__pv_btn.gld{border-color:#f59e0b;color:#b45309;}.__pv_btn.gld:hover{background:#fffbeb;}.__pv_btn:disabled{opacity:.45;cursor:not-allowed;}.__pv_empty{text-align:center;color:#94a3b8;font-size:13px;padding:36px 0;}.__pv_bar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}.__pv_spacer{flex:1;}.__pv_detail{margin-top:8px;padding:10px 12px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;display:none;}.__pv_detail.open{display:block;}.__pv_dgrid{display:grid;grid-template-columns:120px 1fr;gap:4px 12px;font-size:12px;}.__pv_dgrid dt{color:#64748b;}.__pv_dgrid dd{margin:0;color:#0f172a;word-break:break-all;white-space:pre-wrap;}.__pv_edit{display:grid;grid-template-columns:140px 90px 1fr;gap:6px 10px;font-size:12px;align-items:center;}.__pv_edit .lbl{color:#475569;font-weight:600;}.__pv_edit .mode select,.__pv_edit .val input,.__pv_edit .val select,.__pv_edit .val textarea{width:100%;padding:4px 6px;border:1px solid #cbd5e1;border-radius:6px;font-size:12px;background:#fff;color:#0f172a;}.__pv_edit .val textarea{min-height:48px;resize:vertical;}.__pv_edit .val .disabled-note{color:#94a3b8;font-size:11px;padding:4px 6px;background:#f1f5f9;border-radius:6px;border:1px dashed #cbd5e1;}.__pv_edit_bar{display:flex;gap:6px;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #e2e8f0;}.__pv_edit_warn{font-size:11px;color:#b45309;background:#fffbeb;border:1px solid #fcd34d;padding:6px 8px;border-radius:6px;margin-bottom:8px;}.__pv_footer{display:flex;align-items:center;gap:8px;padding:12px 18px;border-top:1px solid #e2e8f0;background:#f8fafc;}.__pv_footer_left{display:flex;gap:8px;align-items:center;}.__pv_footer_right{display:flex;gap:8px;align-items:center;margin-left:auto;}.__pv_exp_chk{width:16px;height:16px;flex:none;cursor:pointer;margin-right:4px;}#__pvtool_overlay .__pv_headright{display:flex;align-items:center;gap:8px;flex:none;}#__pvtool_overlay .__pv_deflabel{font-size:12px;color:#cbd5e1;white-space:nowrap;}#__pvtool_overlay .__pv_defsel{font-size:12px;font-weight:600;color:#e2e8f0;background:#0f172a;border:1px solid #475569;border-radius:6px;padding:4px 8px;cursor:pointer;}#__pvtool_overlay .__pv_defsel:hover{border-color:#64748b;}#__pvtool_overlay .__pv_defsel option{color:#0f172a;background:#fff;}#__pvtool_overlay .__pv_syncbtn{cursor:pointer;font-size:12px;font-weight:600;border-radius:6px;padding:4px 8px;white-space:nowrap;border:1px solid #475569;background:#0f172a;color:#94a3b8;}#__pvtool_overlay .__pv_syncbtn.ok{border-color:#16a34a;color:#4ade80;}#__pvtool_overlay .__pv_syncbtn.warn{border-color:#f59e0b;color:#fbbf24;}#__pvtool_overlay .__pv_syncbtn:hover{filter:brightness(1.2);}', document.head.appendChild(C), E.innerHTML = '<div class="__pv_panel">  <div class="__pv_head">    <div class="__pv_titlewrap"><div class="__pv_title">【webCV】メタコピーツール</div><button class="__pv_share" id="__pv_share" type="button" title="手順ページを開く" aria-label="手順ページを開く"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button></div>    <div class="__pv_headright"><button class="__pv_syncbtn" id="__pv_sync" type="button" title="ローカルファイル連携の状態">…</button><label class="__pv_deflabel" for="__pv_defsel">起動タブ:</label><select class="__pv_defsel" id="__pv_defsel"><option value="capture">メタコピー</option><option value="list">保存一覧</option></select><button class="__pv_close" id="__pv_close">×</button></div>  </div>  <div class="__pv_tabs">    <button class="__pv_tab act" data-tab="capture">メタコピー(プレビュー画面から)</button>    <button class="__pv_tab" data-tab="list">保存メタ一覧</button>  </div>  <div class="__pv_body" id="__pv_body"></div>  <div class="__pv_footer" id="__pv_footer"></div></div>', document.body.appendChild(E);
     var I = E.querySelector("#__pv_body"),
         R = E.querySelector("#__pv_footer"),
         A = E.querySelectorAll(".__pv_tab"),
@@ -820,8 +824,227 @@
             try {
                 localStorage.setItem("__previewDefaultTab", "list" === __pvDefSel.value ? "list" : "capture")
             } catch (e) {}
+            /* 起動タブ設定もミラー対象（仕様5）のため同期予約 */
+            try {
+                __pvFsScheduleWrite()
+            } catch (e) {}
         }
     }
+    /* ===== ローカルファイルミラー保存モジュール（File System Access API） =====
+       方針: localStorageが常に「正」。保存系操作のたびにドキュメント配下のJSONファイルへ全量ミラーする。
+       サイトデータ消去(②)後は localStorage が空になるが、ファイルは残るため再接続1回で全復元できる。
+       既存ロジックへの介入は _()/起動タブ変更/全削除 への同期予約フックのみ（デグレ防止）。 */
+    var __pvFsState = "unsupported", /* unsupported | unlinked | linked */
+        __pvFsHandle = null,
+        __pvFsTimer = null,
+        __pvFsWriting = !1,
+        __pvFsPending = !1,
+        __pvFsSupported = "function" == typeof window.showSaveFilePicker && !!window.indexedDB,
+        __pvFsBtn = E.querySelector("#__pv_sync"),
+        __pvFsFileName = "webcv-meta-backup.json",
+        __pvFsTabKey = "__previewDefaultTab";
+
+    /* 状態インジケータの表示更新（ヘッダー右側ボタン） */
+    function __pvFsSetUI() {
+        if (__pvFsBtn) {
+            __pvFsBtn.classList.remove("ok", "warn");
+            if ("linked" === __pvFsState) {
+                __pvFsBtn.classList.add("ok");
+                __pvFsBtn.textContent = "✓ファイル連携中";
+                __pvFsBtn.title = "保存メタはローカルファイル(" + __pvFsFileName + ")へ自動バックアップされています。クリックで手動同期。"
+            } else if ("unlinked" === __pvFsState) {
+                __pvFsBtn.classList.add("warn");
+                __pvFsBtn.textContent = "⚠未接続";
+                __pvFsBtn.title = "クリックしてバックアップファイルと接続してください（ドキュメント配下推奨）"
+            } else {
+                __pvFsBtn.textContent = "－連携不可";
+                __pvFsBtn.title = "このブラウザはファイル連携(File System Access API)に対応していません。エクスポート/インポートで手動バックアップしてください。"
+            }
+        }
+    }
+
+    /* ハンドル永続化用IndexedDB（ツール専用DB。サイトデータ消去で消える＝消えたら再接続を促す） */
+    function __pvFsDb() {
+        return new Promise(function(res, rej) {
+            var r = indexedDB.open("__pvtool_fs", 1);
+            r.onupgradeneeded = function() {
+                r.result.objectStoreNames.contains("handles") || r.result.createObjectStore("handles")
+            };
+            r.onsuccess = function() {
+                res(r.result)
+            };
+            r.onerror = function() {
+                rej(r.error)
+            }
+        })
+    }
+
+    function __pvFsLoadHandle() {
+        return __pvFsDb().then(function(db) {
+            return new Promise(function(res) {
+                var t = db.transaction("handles", "readonly").objectStore("handles").get("backupFile");
+                t.onsuccess = function() {
+                    res(t.result || null)
+                };
+                t.onerror = function() {
+                    res(null)
+                }
+            })
+        }).catch(function() {
+            return null
+        })
+    }
+
+    function __pvFsSaveHandle(h) {
+        return __pvFsDb().then(function(db) {
+            return new Promise(function(res) {
+                var t = db.transaction("handles", "readwrite");
+                t.objectStore("handles").put(h, "backupFile");
+                t.oncomplete = function() {
+                    res(!0)
+                };
+                t.onerror = function() {
+                    res(!1)
+                }
+            })
+        }).catch(function() {
+            return !1
+        })
+    }
+
+    /* ファイルへ書き出す全量スナップショット（仕様: 保存メタ＋起動タブ設定、formatVersion/savedAt付与） */
+    function __pvFsSnapshot() {
+        var t = null;
+        try {
+            t = localStorage.getItem(__pvFsTabKey)
+        } catch (e) {}
+        return {
+            formatVersion: 1,
+            appName: "webCV-meta-tool",
+            savedAt: (new Date).toISOString(),
+            defaultTab: "list" === t || "capture" === t ? t : null,
+            store: p()
+        }
+    }
+
+    /* 同期予約: 連続書込(テンプレ名のキー入力等)をまとめるため400msの遅延結合。書込中の再要求はpendingで直列化 */
+    function __pvFsScheduleWrite() {
+        "linked" === __pvFsState && (__pvFsTimer && clearTimeout(__pvFsTimer), __pvFsTimer = setTimeout(function() {
+            __pvFsTimer = null, __pvFsWriteNow()
+        }, 400))
+    }
+
+    function __pvFsWriteNow() {
+        if ("linked" === __pvFsState && __pvFsHandle) {
+            if (__pvFsWriting) return void(__pvFsPending = !0);
+            __pvFsWriting = !0;
+            var body = JSON.stringify(__pvFsSnapshot(), null, 2);
+            __pvFsHandle.createWritable().then(function(w) {
+                return w.write(body).then(function() {
+                    return w.close()
+                })
+            }).then(function() {
+                __pvFsWriting = !1, __pvFsPending && (__pvFsPending = !1, __pvFsWriteNow())
+            }).catch(function(err) {
+                /* ファイル削除・権限失効等。localStorage動作は継続し、未接続表示に落として再接続を促す（仕様3,4） */
+                __pvFsWriting = !1, __pvFsPending = !1, __pvFsState = "unlinked", __pvFsSetUI(), q("バックアップファイルへの書込に失敗しました。ヘッダーの「⚠未接続」から再接続してください\n(" + (err && err.name || "error") + ")", !0)
+            })
+        }
+    }
+
+    /* ファイルからの復元。localStorage優先の原則（仕様: 競合時はlocalStorageが正）:
+       - 保存メタ: localStorageのストアが空の場合のみファイル内容を採用
+       - 起動タブ: localStorageにキーが無い場合のみファイル内容を採用（次回起動から反映＝既存仕様踏襲） */
+    function __pvFsRestoreFromData(data) {
+        var n = 0;
+        if (data && 1 === data.formatVersion && data.store && "object" == typeof data.store) {
+            var localEmpty = 0 === Object.keys(p()).length,
+                fileKeys = Object.keys(data.store);
+            localEmpty && fileKeys.length > 0 && (localStorage.setItem(s, JSON.stringify(data.store)), n = fileKeys.length);
+            var hasTab = null;
+            try {
+                hasTab = localStorage.getItem(__pvFsTabKey)
+            } catch (e) {}
+            null == hasTab && ("list" === data.defaultTab || "capture" === data.defaultTab) && function() {
+                try {
+                    localStorage.setItem(__pvFsTabKey, data.defaultTab)
+                } catch (e) {}
+            }()
+        }
+        return n
+    }
+
+    /* 接続確立後の突き合わせ: 空なら復元→最後に必ずlocalStorageの内容でファイルを上書き同期（正を一本化） */
+    function __pvFsReconcile(isReconnect) {
+        return __pvFsHandle.getFile().then(function(f) {
+            return f.text()
+        }).then(function(txt) {
+            var data = null;
+            if (txt && txt.trim()) try {
+                data = JSON.parse(txt)
+            } catch (e) {
+                data = null
+            }
+            var n = data ? __pvFsRestoreFromData(data) : 0;
+            __pvFsState = "linked", __pvFsSetUI(), n > 0 ? (q(n + "件をバックアップファイルから復元しました", !1, "#16a34a", 4e3), J()) : isReconnect && q("バックアップファイルと接続しました", !1, "#16a34a", 2500), __pvFsScheduleWrite()
+        }).catch(function(err) {
+            __pvFsState = "unlinked", __pvFsSetUI(), q("バックアップファイルの読込に失敗しました: " + (err && err.message || err), !0)
+        })
+    }
+
+    /* 起動時初期化: ハンドルをIndexedDBから復元し、権限がgrantedなら無操作で連携再開（通常運用0クリック）。
+       prompt状態や消去後は「⚠未接続」表示に留める（権限要求はユーザー操作起点でしか実行できないため） */
+    function __pvFsInit() {
+        if (!__pvFsSupported) return __pvFsState = "unsupported", __pvFsSetUI(), void q("このブラウザはファイル自動バックアップに未対応です。\nエクスポート/インポートで手動バックアップしてください", !0, "#b45309", 4e3);
+        __pvFsLoadHandle().then(function(h) {
+            if (h && h.queryPermission) {
+                __pvFsHandle = h;
+                return h.queryPermission({
+                    mode: "readwrite"
+                }).then(function(st) {
+                    "granted" === st ? __pvFsReconcile(!1) : (__pvFsState = "unlinked", __pvFsSetUI())
+                }).catch(function() {
+                    __pvFsState = "unlinked", __pvFsSetUI()
+                })
+            }
+            __pvFsState = "unlinked", __pvFsSetUI()
+        })
+    }
+
+    /* インジケータクリック（ユーザー操作＝権限要求・ピッカー起動が可能な唯一の起点）:
+       1) 既存ハンドルあり→権限再要求のみで接続（ダイアログ最小化）
+       2) ハンドル無し/失効→保存ダイアログ（ドキュメント初期位置・ファイル名自動入力） */
+    if (__pvFsBtn) __pvFsBtn.onclick = function() {
+        if ("unsupported" === __pvFsState) return q("このブラウザはファイル連携に未対応です。エクスポート/インポートをご利用ください", !0);
+        if ("linked" === __pvFsState) return __pvFsScheduleWrite(), void q("バックアップファイルへ同期しました", !1, "#16a34a", 2e3);
+        var pick = function() {
+            window.showSaveFilePicker({
+                suggestedName: __pvFsFileName,
+                startIn: "documents",
+                id: "pvtool-backup",
+                types: [{
+                    description: "webCVメタバックアップ",
+                    accept: {
+                        "application/json": [".json"]
+                    }
+                }]
+            }).then(function(h) {
+                __pvFsHandle = h, __pvFsSaveHandle(h), __pvFsReconcile(!0)
+            }).catch(function(err) {
+                /* キャンセル(AbortError)は無通知。それ以外はエラー表示 */
+                err && "AbortError" !== err.name && q("ファイル指定に失敗しました: " + (err.message || err), !0)
+            })
+        };
+        __pvFsHandle && __pvFsHandle.requestPermission ? __pvFsHandle.requestPermission({
+            mode: "readwrite"
+        }).then(function(st) {
+            "granted" === st ? __pvFsReconcile(!0) : pick()
+        }).catch(function() {
+            pick()
+        }) : pick()
+    };
+    __pvFsSetUI(), __pvFsInit();
+    /* ===== ローカルファイルミラー保存モジュール ここまで ===== */
     try {
         e.__openedRegists = (e.__openedRegists || []).filter(function(e) {
             return e.win && !e.win.closed
@@ -1307,7 +1530,12 @@
                 })
             }, I.querySelector("#__pv_delall").onclick = function() {
                 /* 全削除前に確認（!jガード維持・キャンセル時は何もしない） */
-                j || confirm("保存メタを全て削除します。\nよろしいですか？") && (localStorage.removeItem(s), q("全削除しました"), J())
+                j || confirm("保存メタを全て削除します。\nよろしいですか？") && (localStorage.removeItem(s), function() {
+                    /* 全削除もlocalStorage優先の原則どおりファイルへ反映（空ストアで上書き） */
+                    try {
+                        __pvFsScheduleWrite()
+                    } catch (e) {}
+                }(), q("全削除しました"), J())
             }, Y(), j && I.querySelectorAll(".__pv_exp_chk").forEach(function(e) {
                 e.onclick = function(e) {
                     e.stopPropagation()
