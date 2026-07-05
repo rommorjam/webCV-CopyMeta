@@ -839,6 +839,7 @@
         __pvFsTimer = null,
         __pvFsWriting = !1,
         __pvFsPending = !1,
+        __pvFsAutoTried = !1, /* パネル内クリックによる自動権限要求は1実行につき1回のみ（拒否時のダイアログ連発防止） */
         __pvFsSupported = "function" == typeof window.showSaveFilePicker && !!window.indexedDB,
         __pvFsBtn = E.querySelector("#__pv_sync"),
         __pvFsFileName = "webcv-meta-backup.json",
@@ -855,7 +856,7 @@
             } else if ("unlinked" === __pvFsState) {
                 __pvFsBtn.classList.add("warn");
                 __pvFsBtn.textContent = "⚠未接続";
-                __pvFsBtn.title = "クリックしてバックアップファイルと接続してください（ドキュメント配下推奨）"
+                __pvFsBtn.title = "クリックしてバックアップファイルと接続してください（ドキュメント配下推奨）。権限ダイアログでは「今後(次回以降)も許可」を選ぶと、以後は自動接続されます"
             } else {
                 __pvFsBtn.textContent = "－連携不可";
                 __pvFsBtn.title = "このブラウザはファイル連携(File System Access API)に対応していません。エクスポート/インポートで手動バックアップしてください。"
@@ -1014,10 +1015,16 @@
     /* インジケータクリック（ユーザー操作＝権限要求・ピッカー起動が可能な唯一の起点）:
        1) 既存ハンドルあり→権限再要求のみで接続（ダイアログ最小化）
        2) ハンドル無し/失効→保存ダイアログ（ドキュメント初期位置・ファイル名自動入力） */
+    /* 権限ダイアログ直前の案内（永続許可の選択を促す）。ダイアログ表示中もトーストは残るため視認可能 */
+    function __pvFsGuideToast() {
+        q("表示される許可ダイアログで「今後(次回以降)も許可」を選ぶと\nブラウザ再起動後も自動でバックアップ連携されます", !1, "#0f172a", 5e3)
+    }
+
     if (__pvFsBtn) __pvFsBtn.onclick = function() {
         if ("unsupported" === __pvFsState) return q("このブラウザはファイル連携に未対応です。エクスポート/インポートをご利用ください", !0);
         if ("linked" === __pvFsState) return __pvFsScheduleWrite(), void q("バックアップファイルへ同期しました", !1, "#16a34a", 2e3);
         var pick = function() {
+            __pvFsGuideToast();
             window.showSaveFilePicker({
                 suggestedName: __pvFsFileName,
                 startIn: "documents",
@@ -1035,14 +1042,33 @@
                 err && "AbortError" !== err.name && q("ファイル指定に失敗しました: " + (err.message || err), !0)
             })
         };
-        __pvFsHandle && __pvFsHandle.requestPermission ? __pvFsHandle.requestPermission({
+        __pvFsHandle && __pvFsHandle.requestPermission ? (__pvFsGuideToast(), __pvFsHandle.requestPermission({
             mode: "readwrite"
         }).then(function(st) {
             "granted" === st ? __pvFsReconcile(!0) : pick()
         }).catch(function() {
             pick()
-        }) : pick()
+        })) : pick()
     };
+    /* 未接続(ハンドルは生存・権限promptのみ)の場合、パネル内の最初のユーザークリックを契機に自動で権限要求→復帰する。
+       ユーザーに接続操作を意識させないための措置。②発生後(ハンドル消失)はピッカー必須のため対象外（任意クリックで
+       ファイル選択ダイアログが突然開くのを避け、従来どおり⚠ボタン起点とする）。captureフェーズで既存ハンドラと非干渉 */
+    E.addEventListener("click", function(ev) {
+        if (!__pvFsAutoTried && "unlinked" === __pvFsState && __pvFsHandle && __pvFsHandle.requestPermission && !(__pvFsBtn && __pvFsBtn.contains(ev.target))) {
+            __pvFsAutoTried = !0;
+            /* クリック直後のユーザーアクティベーションが有効なうちに権限要求（マイクロタスク経由は許容される） */
+            __pvFsHandle.queryPermission({
+                mode: "readwrite"
+            }).then(function(st) {
+                if ("granted" === st) return __pvFsReconcile(!0);
+                "prompt" === st && (__pvFsGuideToast(), __pvFsHandle.requestPermission({
+                    mode: "readwrite"
+                }).then(function(st2) {
+                    "granted" === st2 && __pvFsReconcile(!0)
+                }).catch(function() {}))
+            }).catch(function() {})
+        }
+    }, !0);
     __pvFsSetUI(), __pvFsInit();
     /* ===== ローカルファイルミラー保存モジュール ここまで ===== */
     try {
